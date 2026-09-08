@@ -71,6 +71,12 @@ export async function updateGirl(id: string, patch: GirlUpdate): Promise<Girl> {
 }
 
 export async function deleteGirl(id: string): Promise<void> {
+  // מנקה קודם את כל קבצי התמונות שלה מה-Storage, כדי לא להשאיר אותם יתומים
+  const { data: files } = await supabase.storage.from(BUCKET).list(id);
+  if (files && files.length > 0) {
+    await supabase.storage.from(BUCKET).remove(files.map((f) => `${id}/${f.name}`));
+  }
+
   const { error } = await supabase.from(TABLE).delete().eq("id", id);
   if (error) throw error;
 }
