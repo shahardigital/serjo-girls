@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Lock } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowRight, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,6 +23,14 @@ export default function AdminLogin() {
 
   return (
     <div className="container flex min-h-[70vh] max-w-sm flex-col justify-center py-12">
+      <Link
+        to="/"
+        className="mb-6 flex items-center gap-1.5 self-start text-sm text-muted-foreground transition-colors hover:text-primary"
+      >
+        <ArrowRight className="h-4 w-4" />
+        חזרה לאתר
+      </Link>
+
       <div className="mb-6 flex flex-col items-center gap-2 text-center">
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/15 text-primary">
           <Lock className="h-6 w-6" />
