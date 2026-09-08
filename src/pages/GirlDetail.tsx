@@ -101,12 +101,12 @@ export default function GirlDetail() {
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-12">
         {/* גלריית תמונות */}
         <div className="flex flex-col gap-3">
-          <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl border border-border bg-secondary sm:aspect-[4/5]">
+          <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl border border-border bg-secondary">
             {images[activeImage] ? (
               <img
                 src={images[activeImage]}
                 alt={`${girl.name} - תמונה ${activeImage + 1}`}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover object-top"
               />
             ) : (
               <div className="flex h-full w-full items-center justify-center text-muted-foreground">
@@ -128,7 +128,7 @@ export default function GirlDetail() {
                     i === activeImage ? "border-primary" : "border-transparent opacity-70 hover:opacity-100"
                   }`}
                 >
-                  {src && <img src={src} alt="" className="h-full w-full object-cover" />}
+                  {src && <img src={src} alt="" className="h-full w-full object-cover object-top" />}
                 </button>
               ))}
             </div>
