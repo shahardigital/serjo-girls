@@ -196,7 +196,7 @@ export default function GirlDetail() {
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row">
-            <Button asChild variant="whatsapp" size="lg" className="flex-1">
+            <Button asChild variant="whatsapp" size="lg" className="w-full sm:flex-1">
               <a
                 href={buildGirlWhatsAppLink(girl.name)}
                 target="_blank"
@@ -208,7 +208,7 @@ export default function GirlDetail() {
                 הזמנה בוואטסאפ
               </a>
             </Button>
-            <Button asChild variant="outline" size="lg" className="flex-1">
+            <Button asChild variant="outline" size="lg" className="w-full sm:flex-1">
               <a
                 href={buildTelLink()}
                 onClick={() => trackGirlClick(girl.id, "call")}
@@ -228,7 +228,7 @@ export default function GirlDetail() {
             <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">עוד לגלות</span>
             <h2 className="text-xl font-bold text-foreground sm:text-2xl">עוד חשפניות שיעניינו אותך</h2>
           </div>
-          <div className="grid grid-cols-2 items-start gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-1 items-start gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {relatedGirls.map((g) => (
               <GirlCard key={g.id} girl={g} />
             ))}
