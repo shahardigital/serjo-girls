@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { Clock, MessageCircle, ShieldCheck, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowLeft, Clock, ShieldCheck, Sparkles } from "lucide-react";
 import TagFilter from "@/components/TagFilter";
 import CatalogGrid from "@/components/CatalogGrid";
 import { fetchActiveGirls } from "@/lib/girls";
-import { buildGirlWhatsAppLink } from "@/config/contact";
+import { buildGirlWhatsAppLink, buildTelLink, CONTACT_PHONE_DISPLAY } from "@/config/contact";
 import type { Girl } from "@/types";
 
 const TRUST_BADGES = [
@@ -37,37 +36,100 @@ export default function Home() {
     );
   }
 
+  // תמונת רקע להירו - הפרופיל הראשון בקטלוג (פעיל, לפי סדר תצוגה). ללא תלות בפרופיל
+  // ספציפי מקובע: אם הפרופיל הראשון משתנה באדמין, ההירו מתעדכן אוטומטית.
+  const heroImage = girls[0]?.images[0];
+
   return (
     <>
       <section className="relative overflow-hidden border-b border-border">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-primary/10 via-transparent to-transparent" />
-        <div className="container relative flex flex-col items-center gap-6 py-16 text-center sm:py-24">
-          <h1 className="text-balance text-3xl font-extrabold leading-tight text-foreground sm:text-4xl md:text-5xl">
-            חשפניות להזמנה{" "}
-            <span className="bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent">
-              למסיבות רווקים
-            </span>{" "}
-            ואירועים פרטיים
-          </h1>
-          <p className="max-w-2xl text-balance text-base text-muted-foreground sm:text-lg">
-            שירות ליווי VIP דיסקרטי בכל רחבי הארץ - הזמנה מהירה ופשוטה בטלפון או בוואטסאפ
-          </p>
+        {/* רקע: תמונה + שכבות גרדיאנט לקריאוּת טקסט */}
+        <div className="absolute inset-0">
+          {heroImage && (
+            <img
+              src={heroImage}
+              alt=""
+              aria-hidden="true"
+              className="h-full w-full scale-105 object-cover object-top opacity-45"
+            />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-l from-background via-background/85 to-background/50 md:to-background/20" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/10 to-background/40" />
+        </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-            {TRUST_BADGES.map(({ icon: Icon, label }) => (
-              <div key={label} className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <Icon className="h-4 w-4 shrink-0 text-primary" />
-                {label}
+        {/* ניווט מספרים דקורטיבי - דסקטופ בלבד */}
+        <div className="absolute inset-y-0 right-6 z-10 hidden flex-col items-end justify-center gap-7 lg:flex">
+          {["01", "02", "03", "04"].map((n, i) => (
+            <div
+              key={n}
+              className={
+                i === 0
+                  ? "flex items-center gap-2 text-sm font-bold text-primary"
+                  : "flex items-center gap-2 text-sm text-muted-foreground/60"
+              }
+            >
+              {i === 0 && <span className="h-px w-6 bg-primary" />}
+              {n}
+            </div>
+          ))}
+        </div>
+
+        <div className="container relative flex flex-col justify-center gap-8 py-20 sm:py-28 lg:pl-28 lg:min-h-[620px]">
+          <div className="max-w-xl">
+            <p className="mb-3 text-sm font-medium tracking-wide text-muted-foreground">
+              חשפניות להזמנה במרכז, בשרון ובדרום
+            </p>
+            <h1 className="text-balance text-5xl font-extrabold leading-[1.05] text-foreground sm:text-6xl md:text-7xl">
+              חשפניות
+              <br />
+              <span className="bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent">
+                להזמנה
+              </span>
+            </h1>
+            <p className="mt-6 max-w-md text-balance text-base leading-relaxed text-muted-foreground">
+              כאן תוכלו למצוא את מיטב החשפניות בישראל להזמנה למסיבות רווקים ואירועים פרטיים
+              בכל רחבי הארץ - שירות VIP דיסקרטי, זמין 24 שעות ביממה.
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+              <a
+                href={buildGirlWhatsAppLink("")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-4"
+              >
+                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-accent text-accent transition-all group-hover:scale-110 group-hover:bg-accent group-hover:text-accent-foreground">
+                  <ArrowLeft className="h-5 w-5" />
+                </span>
+                <span className="text-sm font-semibold text-foreground">לשיחה עם חשפניות</span>
+              </a>
+
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                {TRUST_BADGES.map(({ icon: Icon, label }) => (
+                  <div key={label} className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                    <Icon className="h-4 w-4 shrink-0 text-primary" />
+                    {label}
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
+        </div>
 
-          <Button asChild variant="whatsapp" size="lg" className="mt-2">
-            <a href={buildGirlWhatsAppLink("")} target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="h-5 w-5" />
-              הזמנה מהירה בוואטסאפ
+        {/* פס מידע תחתון */}
+        <div className="relative z-10 border-t border-border/60 bg-background/70 backdrop-blur-sm">
+          <div className="container flex flex-wrap items-center justify-center gap-x-8 gap-y-2 py-4 text-sm text-muted-foreground sm:justify-between">
+            <span>
+              חייגו עכשיו:{" "}
+              <a href={buildTelLink()} className="font-semibold text-primary" dir="ltr">
+                {CONTACT_PHONE_DISPLAY}
+              </a>
+            </span>
+            <span>זמינים גם בוואטסאפ</span>
+            <a href="#catalog" className="font-medium text-foreground transition-colors hover:text-primary">
+              בחר לך חשפנית ←
             </a>
-          </Button>
+          </div>
         </div>
       </section>
 
