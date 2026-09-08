@@ -9,4 +9,4 @@ tsconfig.tsbuildinfo
 *.tsbuildinfo
 vite.config.d.ts
 vite.config.js
-.seed-images/
+.seed-images*/
