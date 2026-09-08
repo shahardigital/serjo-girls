@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ChevronLeft, Clock, MessageCircle, Phone, ShieldCheck } from "lucide-react";
+import { ChevronLeft, Clock, MessageCircle, Phone, SearchX, ShieldCheck } from "lucide-react";
 import Seo from "@/components/Seo";
 import GirlCard from "@/components/GirlCard";
 import { Badge } from "@/components/ui/badge";
@@ -48,8 +48,17 @@ export default function GirlDetail() {
 
   if (loading) {
     return (
-      <div className="container flex min-h-[60vh] items-center justify-center">
-        <p className="text-muted-foreground">טוען...</p>
+      <div className="container py-8 sm:py-12">
+        <div className="mb-6 h-4 w-40 animate-pulse rounded bg-secondary" />
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-12">
+          <div className="aspect-[3/4] w-full animate-pulse rounded-2xl bg-secondary" />
+          <div className="flex flex-col gap-4">
+            <div className="h-9 w-2/3 animate-pulse rounded bg-secondary" />
+            <div className="h-5 w-1/3 animate-pulse rounded bg-secondary" />
+            <div className="h-24 w-full animate-pulse rounded bg-secondary" />
+            <div className="h-12 w-full animate-pulse rounded-full bg-secondary" />
+          </div>
+        </div>
       </div>
     );
   }
@@ -58,6 +67,9 @@ export default function GirlDetail() {
     return (
       <div className="container flex min-h-[60vh] flex-col items-center justify-center gap-4 text-center">
         <Seo title="פרופיל לא נמצא" description="הפרופיל המבוקש לא נמצא או שאינו זמין יותר." noindex />
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-secondary text-muted-foreground">
+          <SearchX className="h-7 w-7" />
+        </div>
         <h1 className="text-2xl font-bold text-foreground">הפרופיל לא נמצא</h1>
         <p className="text-muted-foreground">ייתכן שהוא הוסר או שהקישור שגוי.</p>
         <Button onClick={() => navigate("/")}>חזרה לקטלוג</Button>
@@ -205,8 +217,11 @@ export default function GirlDetail() {
 
       {relatedGirls.length > 0 && (
         <section className="mt-16 border-t border-border pt-10">
-          <h2 className="mb-6 text-xl font-bold text-foreground sm:text-2xl">עוד חשפניות שיעניינו אותך</h2>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="mb-6 flex flex-col gap-1.5">
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">עוד לגלות</span>
+            <h2 className="text-xl font-bold text-foreground sm:text-2xl">עוד חשפניות שיעניינו אותך</h2>
+          </div>
+          <div className="grid grid-cols-2 items-start gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {relatedGirls.map((g) => (
               <GirlCard key={g.id} girl={g} />
             ))}

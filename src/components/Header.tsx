@@ -60,9 +60,10 @@ export default function Header() {
               key={link.href}
               href={link.href}
               onClick={(e) => handleAnchorClick(e, link.href)}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className="group relative text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               {link.label}
+              <span className="absolute -bottom-1 right-0 h-px w-0 bg-gradient-to-l from-primary to-accent transition-all duration-300 group-hover:w-full" />
             </a>
           ))}
         </nav>

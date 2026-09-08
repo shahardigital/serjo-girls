@@ -20,10 +20,10 @@ export default function TagFilter({ girls, selected, onToggle, onClear }: TagFil
         <button
           onClick={onClear}
           className={cn(
-            "rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors",
+            "rounded-full border px-3.5 py-1.5 text-sm font-medium transition-all",
             selected.length === 0
-              ? "border-primary bg-primary text-primary-foreground"
-              : "border-border bg-secondary/60 text-foreground hover:border-primary/50",
+              ? "border-transparent bg-gradient-to-l from-primary to-accent text-primary-foreground shadow-md shadow-primary/20"
+              : "border-border bg-secondary/60 text-foreground hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-sm",
           )}
         >
           הכל ({girls.length})
@@ -39,10 +39,10 @@ export default function TagFilter({ girls, selected, onToggle, onClear }: TagFil
                 id={tag.id}
                 onClick={() => onToggle(tag.id)}
                 className={cn(
-                  "scroll-mt-20 rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors",
+                  "scroll-mt-20 rounded-full border px-3.5 py-1.5 text-sm font-medium transition-all",
                   isActive
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-secondary/60 text-foreground hover:border-primary/50",
+                    ? "border-transparent bg-gradient-to-l from-primary to-accent text-primary-foreground shadow-md shadow-primary/20"
+                    : "border-border bg-secondary/60 text-foreground hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-sm",
                 )}
               >
                 {tag.label}
