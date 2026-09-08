@@ -76,12 +76,17 @@ const config: Config = {
           "70%": { boxShadow: "0 0 0 10px hsl(var(--whatsapp) / 0)" },
           "100%": { boxShadow: "0 0 0 0 hsl(var(--whatsapp) / 0)" },
         },
+        "hero-in": {
+          from: { opacity: "0", transform: "scale(1.06)" },
+          to: { opacity: "1", transform: "scale(1)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.4s ease-out",
         "pulse-ring": "pulse-ring 2s infinite",
+        "hero-in": "hero-in 1.1s ease-out",
       },
     },
   },

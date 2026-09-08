@@ -51,21 +51,31 @@ export default function Home() {
       />
 
       <section className="relative overflow-hidden border-b border-border bg-background">
-        {/* תמונה מלאה על פני כל הסקשיין, עם דירוג כהה/שחור (לא צבעוני) שממזג אותה עם הרקע */}
+        {/* מובייל/טאבלט: תמונה מלאה מעומעמת קלות, בלי כיסוי שחור כבד - התמונה נשארת ברורה */}
         {heroImage && (
-          <div className="absolute inset-0">
+          <div className="absolute inset-0 lg:hidden">
             <img
               src={heroImage}
               alt=""
               aria-hidden="true"
-              className="h-full w-full scale-110 object-cover object-[25%_8%] grayscale-[15%] sm:object-[35%_5%] lg:scale-100 lg:object-[22%_5%]"
+              className="h-full w-full animate-hero-in object-cover object-[25%_8%] grayscale-[10%] sm:object-[35%_5%]"
             />
-            {/* דירוג כהה אחיד - שכבה שחורה שטוחה, בלי גוון צבעוני */}
-            <div className="absolute inset-0 bg-black/50" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-transparent to-background/35" />
-            {/* וינייטה אסימטרית: כהה ואטומה מתחת לטקסט, נעלמת לגמרי איפה שהתמונה צריכה לנשום */}
-            <div className="absolute inset-0 bg-gradient-to-l from-background via-background/78 to-transparent sm:via-background/60" />
-            <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-background/40" />
+            <div className="absolute inset-0 bg-gradient-to-l from-background via-background/65 to-transparent" />
+          </div>
+        )}
+
+        {/* דסקטופ: התמונה תופסת בעיקר את הצד השמאלי, לא ככיסוי על כל הסקשיין - עם קצה רך שנמס לתוך הרקע */}
+        {heroImage && (
+          <div className="absolute inset-y-0 left-0 hidden lg:block lg:w-[58%]">
+            <img
+              src={heroImage}
+              alt=""
+              aria-hidden="true"
+              className="h-full w-full animate-hero-in object-cover object-[30%_5%] grayscale-[10%] [mask-image:linear-gradient(to_right,black_0%,black_55%,transparent_92%)] [mask-repeat:no-repeat] [mask-size:100%_100%]"
+            />
+            <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-background/60 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-background/50 to-transparent" />
           </div>
         )}
 

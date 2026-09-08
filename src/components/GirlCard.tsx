@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { MessageCircle, Phone } from "lucide-react";
+import { Camera, MessageCircle, Phone } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getTagById } from "@/data/tags";
@@ -32,6 +32,12 @@ export default function GirlCard({ girl }: GirlCardProps) {
         <Badge variant="success" className="absolute top-3 right-3 shadow">
           פנויה
         </Badge>
+        {girl.images.length > 1 && (
+          <span className="absolute bottom-3 left-3 flex items-center gap-1 rounded-full bg-black/60 px-2 py-1 text-xs font-medium text-white backdrop-blur-sm">
+            <Camera className="h-3 w-3" />
+            {girl.images.length}
+          </span>
+        )}
       </Link>
 
       <div className="flex flex-1 flex-col gap-3 p-4">
