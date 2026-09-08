@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, Phone, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { CONTACT_PHONE_DISPLAY, buildGirlWhatsAppLink, buildTelLink } from "@/config/contact";
+import { useSiteSettings } from "@/context/SiteSettingsContext";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
@@ -15,6 +15,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { settings, buildTelLink, buildGirlWhatsAppLink } = useSiteSettings();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -75,7 +76,7 @@ export default function Header() {
             dir="ltr"
           >
             <Phone className="h-4 w-4 shrink-0 text-primary" />
-            {CONTACT_PHONE_DISPLAY}
+            {settings.phoneDisplay}
           </a>
           <Button asChild variant="whatsapp" size="sm">
             <a href={buildGirlWhatsAppLink("")} target="_blank" rel="noopener noreferrer">
@@ -113,7 +114,7 @@ export default function Header() {
                 dir="ltr"
               >
                 <Phone className="h-4 w-4 shrink-0 text-primary" />
-                {CONTACT_PHONE_DISPLAY}
+                {settings.phoneDisplay}
               </a>
               <Button asChild variant="whatsapp" size="sm" className="mr-auto">
                 <a href={buildGirlWhatsAppLink("")} target="_blank" rel="noopener noreferrer">

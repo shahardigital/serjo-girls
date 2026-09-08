@@ -14,6 +14,8 @@ function fromRow(row: any): Girl {
     tags: row.tags ?? [],
     active: row.active,
     order: row.order ?? 0,
+    whatsappClicks: row.whatsapp_clicks ?? 0,
+    callClicks: row.call_clicks ?? 0,
   };
 }
 

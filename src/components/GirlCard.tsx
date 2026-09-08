@@ -3,7 +3,8 @@ import { Camera, MessageCircle, Phone } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getTagById } from "@/data/tags";
-import { buildGirlWhatsAppLink, buildTelLink } from "@/config/contact";
+import { useSiteSettings } from "@/context/SiteSettingsContext";
+import { trackGirlClick } from "@/lib/clickTracking";
 import type { Girl } from "@/types";
 
 interface GirlCardProps {
@@ -12,6 +13,7 @@ interface GirlCardProps {
 
 export default function GirlCard({ girl }: GirlCardProps) {
   const image = girl.images[0];
+  const { buildTelLink, buildGirlWhatsAppLink } = useSiteSettings();
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5">
@@ -63,7 +65,11 @@ export default function GirlCard({ girl }: GirlCardProps) {
 
         <div className="mt-auto flex gap-2 pt-2">
           <Button asChild variant="outline" size="sm" className="flex-1">
-            <a href={buildTelLink()} aria-label={`התקשר בנוגע ל${girl.name}`}>
+            <a
+              href={buildTelLink()}
+              onClick={() => trackGirlClick(girl.id, "call")}
+              aria-label={`התקשר בנוגע ל${girl.name}`}
+            >
               <Phone className="h-4 w-4" />
               חיוג
             </a>
@@ -73,6 +79,7 @@ export default function GirlCard({ girl }: GirlCardProps) {
               href={buildGirlWhatsAppLink(girl.name)}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackGirlClick(girl.id, "whatsapp")}
               aria-label={`שלח וואטסאפ בנוגע ל${girl.name}`}
             >
               <MessageCircle className="h-4 w-4" />

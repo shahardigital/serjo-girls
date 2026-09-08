@@ -1,8 +1,10 @@
 import { MessageCircle } from "lucide-react";
-import { buildGirlWhatsAppLink } from "@/config/contact";
+import { useSiteSettings } from "@/context/SiteSettingsContext";
 
 /** כפתור וואטסאפ צף, קבוע בתחתית המסך - נגיש מכל מקום באתר, לא רק מתוך הכרטיסיות. מוצג רק במובייל. */
 export default function StickyWhatsApp() {
+  const { buildGirlWhatsAppLink } = useSiteSettings();
+
   return (
     <a
       href={buildGirlWhatsAppLink("")}

@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { MessageCircle, Phone } from "lucide-react";
 import { REGIONS, TAGS } from "@/data/tags";
-import { CONTACT_PHONE_DISPLAY, buildGirlWhatsAppLink, buildTelLink } from "@/config/contact";
+import { useSiteSettings } from "@/context/SiteSettingsContext";
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const { settings, buildTelLink, buildGirlWhatsAppLink } = useSiteSettings();
 
   return (
     <footer id="regions" className="relative border-t border-border bg-card/40">
@@ -28,7 +29,7 @@ export default function Footer() {
               dir="ltr"
             >
               <Phone className="h-4 w-4 shrink-0 text-primary" />
-              {CONTACT_PHONE_DISPLAY}
+              {settings.phoneDisplay}
             </a>
             <a
               href={buildGirlWhatsAppLink("")}

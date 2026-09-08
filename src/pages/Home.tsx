@@ -4,7 +4,7 @@ import Seo from "@/components/Seo";
 import TagFilter from "@/components/TagFilter";
 import CatalogGrid from "@/components/CatalogGrid";
 import { fetchActiveGirls } from "@/lib/girls";
-import { buildGirlWhatsAppLink, buildTelLink, CONTACT_PHONE_DISPLAY } from "@/config/contact";
+import { useSiteSettings } from "@/context/SiteSettingsContext";
 import type { Girl } from "@/types";
 
 const TRUST_BADGES = [
@@ -14,6 +14,7 @@ const TRUST_BADGES = [
 ];
 
 export default function Home() {
+  const { settings, buildTelLink, buildGirlWhatsAppLink } = useSiteSettings();
   const [girls, setGirls] = useState<Girl[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -132,7 +133,7 @@ export default function Home() {
             <span>
               חייגו עכשיו:{" "}
               <a href={buildTelLink()} className="font-semibold text-primary" dir="ltr">
-                {CONTACT_PHONE_DISPLAY}
+                {settings.phoneDisplay}
               </a>
             </span>
             <span>זמינים גם בוואטסאפ</span>

@@ -7,12 +7,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { fetchActiveGirls, fetchGirlBySlug } from "@/lib/girls";
 import { getTagById } from "@/data/tags";
-import { buildGirlWhatsAppLink, buildTelLink } from "@/config/contact";
+import { useSiteSettings } from "@/context/SiteSettingsContext";
+import { trackGirlClick } from "@/lib/clickTracking";
 import type { Girl } from "@/types";
 
 export default function GirlDetail() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const { buildTelLink, buildGirlWhatsAppLink } = useSiteSettings();
 
   const [girl, setGirl] = useState<Girl | null>(null);
   const [others, setOthers] = useState<Girl[]>([]);
@@ -199,6 +201,7 @@ export default function GirlDetail() {
                 href={buildGirlWhatsAppLink(girl.name)}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackGirlClick(girl.id, "whatsapp")}
                 aria-label={`שלח וואטסאפ בנוגע ל${girl.name}`}
               >
                 <MessageCircle className="h-5 w-5" />
@@ -206,7 +209,11 @@ export default function GirlDetail() {
               </a>
             </Button>
             <Button asChild variant="outline" size="lg" className="flex-1">
-              <a href={buildTelLink()} aria-label={`התקשר בנוגע ל${girl.name}`}>
+              <a
+                href={buildTelLink()}
+                onClick={() => trackGirlClick(girl.id, "call")}
+                aria-label={`התקשר בנוגע ל${girl.name}`}
+              >
                 <Phone className="h-5 w-5" />
                 חיוג ישיר
               </a>
