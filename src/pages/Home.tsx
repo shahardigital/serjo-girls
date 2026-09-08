@@ -50,24 +50,37 @@ export default function Home() {
         path="/"
       />
 
-      <section className="relative overflow-hidden border-b border-border">
-        {/* רקע: תמונה חיה וברורה + גרדיאנטים ממוקדים רק איפה שצריך קריאוּת טקסט */}
-        <div className="absolute inset-0">
-          {heroImage && (
+      <section className="relative overflow-hidden border-b border-border bg-background">
+        {/* דסקטופ: תמונה בגודל מלא בפינה השמאלית של הסקשיין, לא כרקע מוצף */}
+        {heroImage && (
+          <div className="absolute inset-y-0 left-0 z-0 hidden w-[44%] lg:block">
             <img
               src={heroImage}
               alt=""
               aria-hidden="true"
-              className="h-full w-full scale-105 object-cover object-[50%_15%] sm:object-[70%_10%]"
+              className="h-full w-full object-cover object-top"
             />
-          )}
-          {/* וינייטה כהה בצדדים ולמעלה/למטה, שקוף לגמרי במרכז כדי שהתמונה תישאר חיה */}
-          <div className="absolute inset-0 bg-gradient-to-l from-background via-background/40 to-background sm:via-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/5 to-background/50" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-transparent to-transparent" />
-        </div>
+            {/* מעבר חלק מהתמונה לרקע הכהה */}
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-background" />
+            <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
+          </div>
+        )}
 
-        <div className="container relative flex flex-col justify-center gap-8 py-24 sm:py-32 lg:min-h-[680px]">
+        {/* מובייל/טאבלט: תמונת רקע כהה ומעומעמת */}
+        {heroImage && (
+          <div className="absolute inset-0 lg:hidden">
+            <img
+              src={heroImage}
+              alt=""
+              aria-hidden="true"
+              className="h-full w-full object-cover object-[60%_15%] opacity-30"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/75 to-background/90" />
+          </div>
+        )}
+
+        <div className="container relative flex flex-col justify-center gap-8 py-24 sm:py-32 lg:min-h-[680px] lg:pl-[46%]">
           <div className="max-w-xl">
             <p className="mb-3 text-sm font-medium tracking-wide text-accent">
               חשפניות להזמנה במרכז, בשרון ובדרום
