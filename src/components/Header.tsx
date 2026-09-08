@@ -65,12 +65,6 @@ export default function Header() {
               {link.label}
             </a>
           ))}
-          <Link
-            to="/terms"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            תקנון אתר
-          </Link>
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
@@ -111,12 +105,6 @@ export default function Header() {
                 {link.label}
               </a>
             ))}
-            <Link
-              to="/terms"
-              className="rounded-md px-2 py-3 text-base font-medium text-foreground hover:bg-secondary"
-            >
-              תקנון אתר
-            </Link>
             <div className="mt-2 flex items-center gap-3 border-t border-border px-2 pt-3">
               <a
                 href={buildTelLink()}

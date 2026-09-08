@@ -37,9 +37,10 @@ export default function Home() {
     );
   }
 
-  // תמונת רקע להירו - הפרופיל הראשון בקטלוג (פעיל, לפי סדר תצוגה). ללא תלות בפרופיל
-  // ספציפי מקובע: אם הפרופיל הראשון משתנה באדמין, ההירו מתעדכן אוטומטית.
-  const heroImage = girls[0]?.images[0];
+  // תמונת רקע להירו - תמונה נבחרת בקפידה (לא תלוית סדר תצוגה בקטלוג), עם נפילה
+  // חזרה לפרופיל הראשון הזמין אם התמונה הנבחרת לא קיימת מסיבה כלשהי.
+  const heroGirl = girls.find((g) => g.name === "הנסיכה הסינית") ?? girls[0];
+  const heroImage = heroGirl?.images[0];
 
   return (
     <>
@@ -50,70 +51,60 @@ export default function Home() {
       />
 
       <section className="relative overflow-hidden border-b border-border">
-        {/* רקע: תמונה + שכבות גרדיאנט לקריאוּת טקסט */}
+        {/* רקע: תמונה חיה וברורה + גרדיאנטים ממוקדים רק איפה שצריך קריאוּת טקסט */}
         <div className="absolute inset-0">
           {heroImage && (
             <img
               src={heroImage}
               alt=""
               aria-hidden="true"
-              className="h-full w-full scale-105 object-cover object-top opacity-45"
+              className="h-full w-full scale-105 object-cover object-[50%_15%] sm:object-[70%_10%]"
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-l from-background via-background/85 to-background/50 md:to-background/20" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/10 to-background/40" />
+          {/* וינייטה כהה בצדדים ולמעלה/למטה, שקוף לגמרי במרכז כדי שהתמונה תישאר חיה */}
+          <div className="absolute inset-0 bg-gradient-to-l from-background via-background/40 to-background sm:via-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/5 to-background/50" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-transparent to-transparent" />
         </div>
 
-        {/* ניווט מספרים דקורטיבי - דסקטופ בלבד */}
-        <div className="absolute inset-y-0 right-6 z-10 hidden flex-col items-end justify-center gap-7 lg:flex">
-          {["01", "02", "03", "04"].map((n, i) => (
-            <div
-              key={n}
-              className={
-                i === 0
-                  ? "flex items-center gap-2 text-sm font-bold text-primary"
-                  : "flex items-center gap-2 text-sm text-muted-foreground/60"
-              }
-            >
-              {i === 0 && <span className="h-px w-6 bg-primary" />}
-              {n}
-            </div>
-          ))}
-        </div>
-
-        <div className="container relative flex flex-col justify-center gap-8 py-20 sm:py-28 lg:pl-28 lg:min-h-[620px]">
+        <div className="container relative flex flex-col justify-center gap-8 py-24 sm:py-32 lg:min-h-[680px]">
           <div className="max-w-xl">
-            <p className="mb-3 text-sm font-medium tracking-wide text-muted-foreground">
+            <p className="mb-3 text-sm font-medium tracking-wide text-accent">
               חשפניות להזמנה במרכז, בשרון ובדרום
             </p>
-            <h1 className="text-balance text-5xl font-extrabold leading-[1.05] text-foreground sm:text-6xl md:text-7xl">
+            <h1 className="text-balance text-5xl font-extrabold leading-[1.05] text-foreground drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] sm:text-6xl md:text-7xl">
               חשפניות
               <br />
               <span className="bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent">
                 להזמנה
               </span>
             </h1>
-            <p className="mt-6 max-w-md text-balance text-base leading-relaxed text-muted-foreground">
+            <p className="mt-6 max-w-md text-balance text-base leading-relaxed text-foreground/90 drop-shadow-[0_1px_8px_rgba(0,0,0,0.7)]">
               כאן תוכלו למצוא את מיטב החשפניות בישראל להזמנה למסיבות רווקים ואירועים פרטיים
               בכל רחבי הארץ - שירות VIP דיסקרטי, זמין 24 שעות ביממה.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
               <a
                 href={buildGirlWhatsAppLink("")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center gap-4"
               >
-                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-accent text-accent transition-all group-hover:scale-110 group-hover:bg-accent group-hover:text-accent-foreground">
-                  <ArrowLeft className="h-5 w-5" />
+                <span className="flex h-16 w-16 shrink-0 animate-pulse-ring items-center justify-center rounded-full bg-gradient-to-br from-accent to-primary text-accent-foreground shadow-lg shadow-accent/30 transition-transform group-hover:scale-110">
+                  <ArrowLeft className="h-6 w-6" />
                 </span>
-                <span className="text-sm font-semibold text-foreground">לשיחה עם חשפניות</span>
+                <span className="text-base font-bold text-foreground drop-shadow-[0_1px_6px_rgba(0,0,0,0.8)]">
+                  לשיחה עם חשפניות
+                </span>
               </a>
 
               <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
                 {TRUST_BADGES.map(({ icon: Icon, label }) => (
-                  <div key={label} className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                  <div
+                    key={label}
+                    className="flex items-center gap-1.5 text-sm text-foreground/80 drop-shadow-[0_1px_6px_rgba(0,0,0,0.7)]"
+                  >
                     <Icon className="h-4 w-4 shrink-0 text-primary" />
                     {label}
                   </div>
