@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Clock, MessageCircle, Phone, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowLeft, Clock, ShieldCheck, Sparkles } from "lucide-react";
 import Seo from "@/components/Seo";
 import TagFilter from "@/components/TagFilter";
 import CatalogGrid from "@/components/CatalogGrid";
@@ -51,70 +51,68 @@ export default function Home() {
       />
 
       <section className="relative overflow-hidden border-b border-border bg-background">
-        {/* תמונה אווירתית מלאה, עם דירוג צבעוני כבד שהופך אותה לחלק מהעיצוב ולא לתצלום סטוק מודבק */}
+        {/* תמונה מלאה על פני כל הסקשיין, עם דירוג כהה/שחור (לא צבעוני) שממזג אותה עם הרקע */}
         {heroImage && (
           <div className="absolute inset-0">
             <img
               src={heroImage}
               alt=""
               aria-hidden="true"
-              className="h-full w-full object-cover object-[50%_8%]"
+              className="h-full w-full scale-110 object-cover object-[25%_8%] grayscale-[15%] sm:object-[35%_5%] lg:scale-100 lg:object-[22%_5%]"
             />
-            {/* דירוג: טון סגול-מגנטה כהה על כל התמונה */}
-            <div className="absolute inset-0 bg-[#1a0b2e]/60 mix-blend-multiply" />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#2a0f3d]/70 via-accent/20 to-primary/15 mix-blend-color" />
-            {/* וינייטה: כהה בהיקף כדי שהטקסט המרכזי יהיה קריא, שקופה במרכז-עליון איפה שהפנים */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_28%,transparent_0%,rgba(11,9,16,0.55)_70%,rgba(11,9,16,0.92)_100%)]" />
-            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background to-transparent" />
-            <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-background/70 to-transparent" />
+            {/* דירוג כהה אחיד - שכבה שחורה שטוחה, בלי גוון צבעוני */}
+            <div className="absolute inset-0 bg-black/50" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-transparent to-background/35" />
+            {/* וינייטה אסימטרית: כהה ואטומה מתחת לטקסט, נעלמת לגמרי איפה שהתמונה צריכה לנשום */}
+            <div className="absolute inset-0 bg-gradient-to-l from-background via-background/78 to-transparent sm:via-background/60" />
+            <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
           </div>
         )}
 
-        <div className="container relative flex flex-col items-center justify-center gap-6 py-28 text-center sm:py-36 lg:min-h-[760px]">
-          <p className="text-sm font-medium tracking-[0.15em] text-accent drop-shadow-[0_1px_8px_rgba(0,0,0,0.8)]">
-            חשפניות להזמנה במרכז, בשרון ובדרום
-          </p>
-          <h1 className="text-balance text-5xl font-extrabold leading-[1.05] text-foreground drop-shadow-[0_4px_30px_rgba(0,0,0,0.85)] sm:text-6xl md:text-7xl">
-            חשפניות{" "}
-            <span className="bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent">
-              להזמנה
-            </span>
-          </h1>
-          <p className="max-w-xl text-balance text-base leading-relaxed text-foreground/90 drop-shadow-[0_1px_10px_rgba(0,0,0,0.85)] sm:text-lg">
-            כאן תוכלו למצוא את מיטב החשפניות בישראל להזמנה למסיבות רווקים ואירועים פרטיים
-            בכל רחבי הארץ - שירות VIP דיסקרטי, זמין 24 שעות ביממה.
-          </p>
+        <div className="container relative flex flex-col justify-center gap-8 py-24 sm:py-32 lg:min-h-[680px]">
+          <div className="max-w-xl">
+            <p className="mb-3 text-sm font-medium tracking-wide text-accent">
+              חשפניות להזמנה במרכז, בשרון ובדרום
+            </p>
+            <h1 className="text-balance text-5xl font-extrabold leading-[1.05] text-foreground drop-shadow-[0_2px_20px_rgba(0,0,0,0.6)] sm:text-6xl md:text-7xl">
+              חשפניות
+              <br />
+              <span className="bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent">
+                להזמנה
+              </span>
+            </h1>
+            <p className="mt-6 max-w-md text-balance text-base leading-relaxed text-foreground/90 drop-shadow-[0_1px_8px_rgba(0,0,0,0.7)]">
+              כאן תוכלו למצוא את מיטב החשפניות בישראל להזמנה למסיבות רווקים ואירועים פרטיים
+              בכל רחבי הארץ - שירות VIP דיסקרטי, זמין 24 שעות ביממה.
+            </p>
 
-          <div className="mt-2 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-            {TRUST_BADGES.map(({ icon: Icon, label }) => (
-              <div
-                key={label}
-                className="flex items-center gap-1.5 text-sm text-foreground/85 drop-shadow-[0_1px_8px_rgba(0,0,0,0.8)]"
+            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
+              <a
+                href={buildGirlWhatsAppLink("")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-4"
               >
-                <Icon className="h-4 w-4 shrink-0 text-primary" />
-                {label}
-              </div>
-            ))}
-          </div>
+                <span className="flex h-16 w-16 shrink-0 animate-pulse-ring items-center justify-center rounded-full bg-gradient-to-br from-accent to-primary text-accent-foreground shadow-lg shadow-accent/30 transition-transform group-hover:scale-110">
+                  <ArrowLeft className="h-6 w-6" />
+                </span>
+                <span className="text-base font-bold text-foreground drop-shadow-[0_1px_6px_rgba(0,0,0,0.8)]">
+                  לשיחה עם חשפניות
+                </span>
+              </a>
 
-          <div className="mt-4 flex flex-col items-center gap-3 sm:flex-row">
-            <a
-              href={buildGirlWhatsAppLink("")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-full bg-gradient-to-l from-accent to-primary px-8 py-4 text-base font-bold text-accent-foreground shadow-lg shadow-accent/30 transition-transform hover:scale-105"
-            >
-              <MessageCircle className="h-5 w-5" />
-              הזמנה מהירה בוואטסאפ
-            </a>
-            <a
-              href={buildTelLink()}
-              className="flex items-center gap-2 rounded-full border border-foreground/25 bg-background/40 px-8 py-4 text-base font-bold text-foreground backdrop-blur-sm transition-colors hover:border-foreground/50"
-              dir="ltr"
-            >
-              <Phone className="h-5 w-5 shrink-0" />
-              {CONTACT_PHONE_DISPLAY}
-            </a>
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                {TRUST_BADGES.map(({ icon: Icon, label }) => (
+                  <div
+                    key={label}
+                    className="flex items-center gap-1.5 text-sm text-foreground/80 drop-shadow-[0_1px_6px_rgba(0,0,0,0.7)]"
+                  >
+                    <Icon className="h-4 w-4 shrink-0 text-primary" />
+                    {label}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
