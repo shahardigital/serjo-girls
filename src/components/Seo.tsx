@@ -1,7 +1,8 @@
 import { Helmet } from "react-helmet-async";
 
 const SITE_NAME = "Serjo Girls";
-const SITE_URL = "https://example.com"; // TODO: להחליף בדומיין הסופי לפני עלייה לאוויר
+// נקבע ב-VITE_SITE_URL (ראה .env) - חובה לעדכן לדומיין האמיתי לפני עלייה לאוויר.
+const SITE_URL = import.meta.env.VITE_SITE_URL || "https://example.com";
 
 interface SeoProps {
   title: string;
@@ -13,7 +14,9 @@ interface SeoProps {
 
 /** תגיות מטא בסיסיות (title/description/canonical/OG) לכל עמוד בנפרד. */
 export default function Seo({ title, description, path = "/", image, noindex }: SeoProps) {
-  const canonical = `${SITE_URL}${path}`;
+  // encodeURI ולא encodeURIComponent - שומר על "/" אך מקודד תווים לא-ASCII (סלאגים בעברית),
+  // כדי שה-canonical/og:url יהיו URI תקניים.
+  const canonical = encodeURI(`${SITE_URL}${path}`);
   const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
 
   return (

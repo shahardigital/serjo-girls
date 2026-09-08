@@ -74,7 +74,7 @@ export default function GirlDetail() {
         </div>
         <h1 className="text-2xl font-bold text-foreground">הפרופיל לא נמצא</h1>
         <p className="text-muted-foreground">ייתכן שהוא הוסר או שהקישור שגוי.</p>
-        <Button onClick={() => navigate("/")}>חזרה לקטלוג</Button>
+        <Button onClick={() => navigate("/")}>חזרה למבחר</Button>
       </div>
     );
   }
@@ -106,7 +106,7 @@ export default function GirlDetail() {
         </Link>
         <ChevronLeft className="h-3.5 w-3.5" />
         <Link to="/#catalog" className="transition-colors hover:text-primary">
-          הקטלוג שלנו
+          המבחר שלנו
         </Link>
         <ChevronLeft className="h-3.5 w-3.5" />
         <span className="text-foreground">{girl.name}</span>
@@ -138,6 +138,8 @@ export default function GirlDetail() {
                 <button
                   key={i}
                   onClick={() => setActiveImage(i)}
+                  aria-label={`תמונה ${i + 1}`}
+                  aria-current={i === activeImage}
                   className={`flex h-20 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg border-2 bg-secondary transition-colors ${
                     i === activeImage ? "border-primary" : "border-transparent opacity-70 hover:opacity-100"
                   }`}

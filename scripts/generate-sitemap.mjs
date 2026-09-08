@@ -1,5 +1,5 @@
-// מייצר public/sitemap.xml עם כל הפרופילים הפעילים - רץ אוטומטית לפני כל build
-// כדי שהמפה תמיד תשקף את הקטלוג העדכני.
+// מייצר public/sitemap.xml ו-public/robots.txt עם כל הפרופילים הפעילים - רץ אוטומטית לפני כל build
+// כדי שהם תמיד ישקפו את הקטלוג העדכני ואת אותו דומיין (VITE_SITE_URL), בלי כפילות בין קבצים.
 import { createClient } from "@supabase/supabase-js";
 import { writeFileSync, readFileSync, existsSync } from "fs";
 import { fileURLToPath } from "url";
@@ -7,9 +7,6 @@ import path from "path";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
-
-// TODO: להחליף בדומיין הסופי לפני עלייה לאוויר (תואם ל-SITE_URL ב-src/components/Seo.tsx)
-const SITE_URL = "https://example.com";
 
 function loadEnv() {
   const envPath = path.join(root, ".env");
@@ -27,6 +24,7 @@ async function main() {
   const env = loadEnv();
   const url = env.VITE_SUPABASE_URL;
   const key = env.VITE_SUPABASE_ANON_KEY;
+  const SITE_URL = env.VITE_SITE_URL || "https://example.com";
 
   const staticUrls = [
     { loc: "/", changefreq: "daily", priority: "1.0" },
@@ -60,8 +58,10 @@ async function main() {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${allUrls
   .map(
+    // encodeURI (לא encodeURIComponent) - שומר על "/" אך מקודד תווים לא-ASCII (סלאגים בעברית),
+    // כנדרש בפרוטוקול ה-sitemap (loc חייב להיות URI תקני לפי RFC 3986).
     (u) => `  <url>
-    <loc>${SITE_URL}${u.loc}</loc>${u.lastmod ? `\n    <lastmod>${u.lastmod}</lastmod>` : ""}
+    <loc>${encodeURI(`${SITE_URL}${u.loc}`)}</loc>${u.lastmod ? `\n    <lastmod>${u.lastmod}</lastmod>` : ""}
     <changefreq>${u.changefreq}</changefreq>
     <priority>${u.priority}</priority>
   </url>`,
@@ -72,6 +72,15 @@ ${allUrls
 
   writeFileSync(path.join(root, "public", "sitemap.xml"), xml, "utf-8");
   console.log(`generate-sitemap: wrote ${allUrls.length} URLs to public/sitemap.xml`);
+
+  const robotsTxt = `User-agent: *
+Allow: /
+Disallow: /admin
+
+Sitemap: ${SITE_URL}/sitemap.xml
+`;
+  writeFileSync(path.join(root, "public", "robots.txt"), robotsTxt, "utf-8");
+  console.log(`generate-sitemap: wrote public/robots.txt (sitemap -> ${SITE_URL}/sitemap.xml)`);
 }
 
 main();

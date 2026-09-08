@@ -36,7 +36,7 @@ export default function AdminLogin() {
           <Lock className="h-6 w-6" />
         </div>
         <h1 className="text-xl font-bold text-foreground">כניסת מנהל</h1>
-        <p className="text-sm text-muted-foreground">התחברות לניהול הקטלוג</p>
+        <p className="text-sm text-muted-foreground">התחברות לניהול המבחר</p>
       </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">

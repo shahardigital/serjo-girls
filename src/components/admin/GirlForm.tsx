@@ -174,7 +174,7 @@ export default function GirlForm({ girl, onSaved, onCancel }: GirlFormProps) {
       <div className="flex items-center gap-6">
         <div className="flex items-center gap-2">
           <Switch id="active" checked={active} onCheckedChange={setActive} />
-          <Label htmlFor="active">מוצג בקטלוג</Label>
+          <Label htmlFor="active">מוצג במבחר</Label>
         </div>
 
         <div className="flex flex-1 flex-col gap-1.5">

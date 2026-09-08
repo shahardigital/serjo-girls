@@ -6,21 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0d0a12" />
 
-    <title>חשפניות להזמנה למסיבות רווקים | ליווי VIP דיסקרטי בכל הארץ</title>
-    <meta
-      name="description"
-      content="חשפניות להזמנה למסיבות רווקים ואירועים פרטיים בכל רחבי הארץ. שירות דיסקרטי, זמינות 24/7, הזמנה מהירה בטלפון או בוואטסאפ."
-    />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://example.com/" />
-
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="he_IL" />
-    <meta property="og:title" content="חשפניות להזמנה למסיבות רווקים | ליווי VIP דיסקרטי" />
-    <meta
-      property="og:description"
-      content="חשפניות להזמנה למסיבות רווקים ואירועים פרטיים בכל רחבי הארץ. שירות דיסקרטי, זמינות 24/7."
-    />
+    <!--
+      אין כאן description/robots/canonical/og:* בכוונה: כל עמוד באתר מרנדר <Seo> (src/components/Seo.tsx)
+      דרך react-helmet-async, שמוסיף את התגיות האלה בלי להסיר תגיות סטטיות קיימות - כלומר תגית
+      סטטית כאן הייתה נשארת כפולה, לצד הגרסה הנכונה, בכל עמוד. הכי גרוע: זה קרה גם ב-/admin
+      ובעמודי noindex, שם התגית הסטטית "index, follow" הייתה מתנגשת עם ה-"noindex, nofollow"
+      האמיתי של Helmet. לכן ה-title בלבד נשאר כברירת מחדל סטטית (הוא תמיד יחיד/לא כפול).
+    -->
+    <title>חשפניות להזמנה למסיבות רווקים ואירועים | Serjo Girls</title>
   </head>
   <body>
     <div id="root"></div>

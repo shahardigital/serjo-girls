@@ -4,6 +4,7 @@ import Seo from "@/components/Seo";
 import TagFilter from "@/components/TagFilter";
 import CatalogGrid from "@/components/CatalogGrid";
 import { fetchActiveGirls } from "@/lib/girls";
+import { getTagById } from "@/data/tags";
 import { useSiteSettings } from "@/context/SiteSettingsContext";
 import type { Girl } from "@/types";
 
@@ -23,8 +24,22 @@ export default function Home() {
   useEffect(() => {
     fetchActiveGirls()
       .then(setGirls)
-      .catch((e) => setError(e.message ?? "שגיאה בטעינת הקטלוג"))
+      .catch((e) => setError(e.message ?? "שגיאה בטעינת המבחר"))
       .finally(() => setLoading(false));
+  }, []);
+
+  // תגי עיר בפוטר מקשרים ל-"/#tag-id" - אם ה-hash הנוכחי הוא תג עיר תקין (בטעינה ראשונית
+  // וגם בקליק כשכבר על עמוד הבית, שלא גורם ל-remount), מסננים אליו בפועל ולא רק גוללים.
+  useEffect(() => {
+    function applyHashTag() {
+      const id = window.location.hash.slice(1);
+      if (id && getTagById(id)) {
+        setSelectedTags([id]);
+      }
+    }
+    applyHashTag();
+    window.addEventListener("hashchange", applyHashTag);
+    return () => window.removeEventListener("hashchange", applyHashTag);
   }, []);
 
   const filteredGirls = useMemo(() => {
@@ -146,7 +161,7 @@ export default function Home() {
 
       <section id="catalog" className="container scroll-mt-20 py-16 sm:py-20">
         <div className="mb-10 flex flex-col items-center gap-3 text-center">
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">הקטלוג המלא</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">המבחר המלא</span>
           <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl">
             החשפניות שלנו
           </h2>

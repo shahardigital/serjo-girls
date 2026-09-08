@@ -6,7 +6,7 @@ import { useSiteSettings } from "@/context/SiteSettingsContext";
 import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
-  { href: "#catalog", label: "הקטלוג שלנו" },
+  { href: "#catalog", label: "המבחר שלנו" },
   { href: "#regions", label: "אזורי שירות" },
 ];
 
