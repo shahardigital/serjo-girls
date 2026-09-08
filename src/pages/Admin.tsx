@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
+import Seo from "@/components/Seo";
 import AdminLogin from "@/components/admin/AdminLogin";
 import AdminDashboard from "@/components/admin/AdminDashboard";
 
@@ -24,10 +25,16 @@ export default function Admin() {
   if (loading) {
     return (
       <div className="container flex min-h-[70vh] items-center justify-center">
+        <Seo title="ניהול" description="אזור ניהול" path="/admin" noindex />
         <p className="text-muted-foreground">טוען...</p>
       </div>
     );
   }
 
-  return session ? <AdminDashboard /> : <AdminLogin />;
+  return (
+    <>
+      <Seo title="ניהול" description="אזור ניהול" path="/admin" noindex />
+      {session ? <AdminDashboard /> : <AdminLogin />}
+    </>
+  );
 }

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, Clock, ShieldCheck, Sparkles } from "lucide-react";
+import Seo from "@/components/Seo";
 import TagFilter from "@/components/TagFilter";
 import CatalogGrid from "@/components/CatalogGrid";
 import { fetchActiveGirls } from "@/lib/girls";
@@ -42,6 +43,12 @@ export default function Home() {
 
   return (
     <>
+      <Seo
+        title="חשפניות להזמנה למסיבות רווקים ואירועים | Serjo Girls"
+        description="חשפניות להזמנה למסיבות רווקים ואירועים פרטיים בכל רחבי הארץ - מרכז, שרון, דרום וירושלים. שירות VIP דיסקרטי, זמינות 24/7, הזמנה מהירה בטלפון או בוואטסאפ."
+        path="/"
+      />
+
       <section className="relative overflow-hidden border-b border-border">
         {/* רקע: תמונה + שכבות גרדיאנט לקריאוּת טקסט */}
         <div className="absolute inset-0">
@@ -133,10 +140,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="catalog" className="container scroll-mt-20 py-12 sm:py-16">
-        <div className="mb-8 flex flex-col gap-2 text-center">
-          <h2 className="text-2xl font-bold text-foreground sm:text-3xl">הקטלוג שלנו</h2>
-          <p className="text-muted-foreground">בחרו עיר או אזור כדי לסנן את הפרופילים הזמינים</p>
+      <section id="catalog" className="container scroll-mt-20 py-16 sm:py-20">
+        <div className="mb-10 flex flex-col items-center gap-3 text-center">
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">הקטלוג המלא</span>
+          <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl">
+            החשפניות שלנו
+          </h2>
+          <p className="max-w-md text-muted-foreground">בחרו עיר או אזור כדי לסנן את הפרופילים הזמינים</p>
+          <span className="mt-1 h-1 w-14 rounded-full bg-gradient-to-l from-primary to-accent" />
         </div>
 
         <div className="mb-8">

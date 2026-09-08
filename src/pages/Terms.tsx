@@ -1,6 +1,13 @@
+import Seo from "@/components/Seo";
+
 export default function Terms() {
   return (
     <div className="container max-w-3xl py-12 sm:py-16">
+      <Seo
+        title="תקנון אתר"
+        description="תקנון השימוש באתר Serjo Girls - תנאי שימוש, גילאי שימוש ומדיניות פרטיות."
+        path="/terms"
+      />
       <h1 className="mb-8 text-3xl font-extrabold text-foreground">תקנון אתר</h1>
 
       <div className="space-y-6 text-sm leading-relaxed text-muted-foreground">

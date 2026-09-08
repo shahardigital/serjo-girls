@@ -8,6 +8,7 @@ function fromRow(row: any): Girl {
   return {
     id: row.id,
     name: row.name,
+    slug: row.slug,
     description: row.description ?? "",
     images: row.images ?? [],
     tags: row.tags ?? [],
@@ -26,6 +27,19 @@ export async function fetchActiveGirls(): Promise<Girl[]> {
 
   if (error) throw error;
   return (data ?? []).map(fromRow);
+}
+
+/** פרופיל בודד לפי slug - לעמוד הפרטים הציבורי. RLS מגביל ל-active=true. */
+export async function fetchGirlBySlug(slug: string): Promise<Girl | null> {
+  const { data, error } = await supabase
+    .from(TABLE)
+    .select("*")
+    .eq("slug", slug)
+    .eq("active", true)
+    .maybeSingle();
+
+  if (error) throw error;
+  return data ? fromRow(data) : null;
 }
 
 /** כל הפרופילים (פעילים ומוסתרים) - לשימוש האדמין בלבד, דורש session מאומת. */

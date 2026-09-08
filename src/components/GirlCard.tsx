@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { MessageCircle, Phone } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,8 +14,8 @@ export default function GirlCard({ girl }: GirlCardProps) {
   const image = girl.images[0];
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-primary/50">
-      <div className="relative aspect-[3/4] w-full overflow-hidden bg-secondary">
+    <article className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5">
+      <Link to={`/girl/${girl.slug}`} className="relative block aspect-[3/4] w-full overflow-hidden bg-secondary">
         {image ? (
           <img
             src={image}
@@ -27,13 +28,18 @@ export default function GirlCard({ girl }: GirlCardProps) {
             אין תמונה
           </div>
         )}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
         <Badge variant="success" className="absolute top-3 right-3 shadow">
           פנויה
         </Badge>
-      </div>
+      </Link>
 
       <div className="flex flex-1 flex-col gap-3 p-4">
-        <h3 className="text-lg font-bold text-foreground">{girl.name}</h3>
+        <Link to={`/girl/${girl.slug}`} className="w-fit">
+          <h3 className="text-lg font-bold text-foreground transition-colors group-hover:text-primary">
+            {girl.name}
+          </h3>
+        </Link>
 
         {girl.tags.length > 0 && (
           <div className="flex flex-wrap gap-1.5">

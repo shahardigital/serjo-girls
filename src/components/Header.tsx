@@ -40,15 +40,16 @@ export default function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 w-full border-b transition-colors",
+        "sticky top-0 z-40 w-full border-b transition-all",
         scrolled
-          ? "border-border bg-background/90 backdrop-blur-md"
+          ? "border-border bg-background/90 shadow-lg shadow-black/20 backdrop-blur-md"
           : "border-transparent bg-background/60 backdrop-blur-sm",
       )}
     >
-      <div className="container flex h-16 items-center justify-between gap-4">
-        <Link to="/" className="flex shrink-0 items-center gap-2">
-          <span className="bg-gradient-to-l from-primary to-accent bg-clip-text text-xl font-extrabold tracking-tight text-transparent">
+      <div className="container flex h-16 items-center justify-between gap-4 md:h-20">
+        <Link to="/" className="group flex shrink-0 items-center gap-2">
+          <span className="h-2 w-2 rounded-full bg-accent shadow-[0_0_10px_2px] shadow-accent/60" />
+          <span className="bg-gradient-to-l from-primary to-accent bg-clip-text text-2xl font-extrabold tracking-tight text-transparent">
             Serjo Girls
           </span>
         </Link>

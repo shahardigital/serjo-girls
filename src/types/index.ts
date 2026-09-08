@@ -1,6 +1,7 @@
 export interface Girl {
   id: string;
   name: string;
+  slug: string;
   description: string;
   images: string[];
   tags: string[];
@@ -14,5 +15,6 @@ export interface Tag {
   region?: string;
 }
 
-export type GirlInsert = Omit<Girl, "id">;
+// slug נגזר אוטומטית מהשם ע"י טריגר ב-DB - לא נדרש (ואפשר לדרוס במפורש אם צריך)
+export type GirlInsert = Omit<Girl, "id" | "slug"> & { slug?: string };
 export type GirlUpdate = Partial<GirlInsert>;

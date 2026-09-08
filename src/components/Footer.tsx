@@ -7,22 +7,24 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer id="regions" className="border-t border-border bg-card/40">
-      <div className="container flex flex-col gap-8 py-10">
+    <footer id="regions" className="relative border-t border-border bg-card/40">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-l from-transparent via-primary/50 to-transparent" />
+
+      <div className="container flex flex-col gap-8 py-12">
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
           <div>
-            <span className="bg-gradient-to-l from-primary to-accent bg-clip-text text-lg font-extrabold text-transparent">
+            <span className="bg-gradient-to-l from-primary to-accent bg-clip-text text-xl font-extrabold text-transparent">
               Serjo Girls
             </span>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-1.5 text-sm text-muted-foreground">
               חשפניות להזמנה למסיבות רווקים ואירועים פרטיים - שירות דיסקרטי בכל הארץ
             </p>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <a
               href={buildTelLink()}
-              className="flex items-center gap-1.5 text-sm font-semibold text-foreground transition-colors hover:text-primary"
+              className="flex items-center gap-1.5 rounded-full border border-border bg-secondary/40 px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:border-primary/50 hover:text-primary"
               dir="ltr"
             >
               <Phone className="h-4 w-4 shrink-0 text-primary" />
@@ -32,7 +34,7 @@ export default function Footer() {
               href={buildGirlWhatsAppLink("")}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-sm font-semibold text-whatsapp transition-colors hover:text-whatsapp/80"
+              className="flex items-center gap-1.5 rounded-full border border-whatsapp/30 bg-whatsapp/10 px-4 py-2 text-sm font-semibold text-whatsapp transition-colors hover:bg-whatsapp/20"
             >
               <MessageCircle className="h-4 w-4 shrink-0" />
               וואטסאפ
@@ -40,11 +42,14 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-6 border-t border-border pt-8 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-8 border-t border-border pt-10 sm:grid-cols-4">
           {REGIONS.map((region) => (
             <div key={region}>
-              <h3 className="mb-3 text-sm font-semibold text-foreground">{region}</h3>
-              <ul className="space-y-2">
+              <h3 className="mb-3 flex items-center gap-1.5 text-sm font-semibold text-foreground">
+                <span className="h-1 w-1 rounded-full bg-primary" />
+                {region}
+              </h3>
+              <ul className="space-y-2.5">
                 {TAGS.filter((t) => t.region === region).map((tag) => (
                   <li key={tag.id}>
                     <a

@@ -95,8 +95,12 @@ export default function GirlForm({ girl, onSaved, onCancel }: GirlFormProps) {
           id="description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          rows={4}
+          rows={10}
+          placeholder={"תגית קצרה\n\nפסקה ראשונה...\n\nפסקה שנייה...\n\nפסקת סיום..."}
         />
+        <p className="text-xs text-muted-foreground">
+          שורה ראשונה מוצגת כתגית קצרה מתחת לשם. הפרידו בין פסקאות בשורה ריקה.
+        </p>
       </div>
 
       <div className="flex flex-col gap-1.5">
