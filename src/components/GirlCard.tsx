@@ -15,16 +15,16 @@ export default function GirlCard({ girl }: GirlCardProps) {
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5">
-      <Link to={`/girl/${girl.slug}`} className="relative block aspect-[3/4] w-full overflow-hidden bg-secondary">
+      <Link to={`/girl/${girl.slug}`} className="relative block w-full overflow-hidden bg-secondary">
         {image ? (
           <img
             src={image}
             alt={girl.name}
             loading="lazy"
-            className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+            className="block h-auto w-full transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-sm text-muted-foreground">
+          <div className="flex aspect-[3/4] w-full items-center justify-center text-sm text-muted-foreground">
             אין תמונה
           </div>
         )}
