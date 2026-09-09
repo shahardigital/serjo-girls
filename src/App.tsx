@@ -1,3 +1,4 @@
+import { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "sonner";
@@ -10,8 +11,11 @@ import ScrollToTop from "@/components/ScrollToTop";
 import Home from "@/pages/Home";
 import GirlDetail from "@/pages/GirlDetail";
 import Terms from "@/pages/Terms";
-import Admin from "@/pages/Admin";
 import NotFound from "@/pages/NotFound";
+
+// טעינה עצלה - קוד האדמין (טופס, דשבורד, הגדרות) נכנס ל-chunk נפרד ונטען רק
+// כשמישהו בפועל נכנס ל-/admin, כדי שמבקרים רגילים לא יורידו אותו בלי צורך.
+const Admin = lazy(() => import("@/pages/Admin"));
 
 function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -57,7 +61,14 @@ export default function App() {
                 </SiteLayout>
               }
             />
-            <Route path="/admin" element={<Admin />} />
+            <Route
+              path="/admin"
+              element={
+                <Suspense fallback={null}>
+                  <Admin />
+                </Suspense>
+              }
+            />
             <Route
               path="*"
               element={
