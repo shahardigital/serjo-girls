@@ -12,6 +12,7 @@ import ConfirmDialog from "@/components/ConfirmDialog";
 import GirlForm from "@/components/admin/GirlForm";
 import SiteSettingsPanel from "@/components/admin/SiteSettingsPanel";
 import ChangePassword from "@/components/admin/ChangePassword";
+import AdminUsersPanel from "@/components/admin/AdminUsersPanel";
 import { deleteGirl, fetchAllGirls } from "@/lib/girls";
 import { getTagById } from "@/data/tags";
 import { supabase } from "@/lib/supabase";
@@ -103,6 +104,7 @@ export default function AdminDashboard() {
         <div className="flex flex-col gap-8">
           <SiteSettingsPanel />
           <ChangePassword />
+          <AdminUsersPanel />
         </div>
       ) : (
         <>

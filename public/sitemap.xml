@@ -125,12 +125,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/girl/%D7%95%D7%99%D7%A7%D7%99</loc>
-    <lastmod>2026-09-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://example.com/girl/%D7%99%D7%A2%D7%9C</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>weekly</changefreq>
@@ -151,6 +145,12 @@
   <url>
     <loc>https://example.com/girl/%D7%A8%D7%95%D7%AA%D7%9D</loc>
     <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://example.com/girl/%D7%95%D7%99%D7%A7%D7%99</loc>
+    <lastmod>2026-09-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
