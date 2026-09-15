@@ -22,7 +22,6 @@ export default function GirlCard({ girl }: GirlCardProps) {
           <img
             src={image}
             alt={girl.name}
-            loading="lazy"
             className="block h-auto w-full transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
