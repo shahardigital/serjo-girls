@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Copy, ShieldPlus, UserRound } from "lucide-react";
+import { Copy, KeyRound, ShieldPlus, Trash2, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import { supabase } from "@/lib/supabase";
 
 interface AdminRow {
@@ -15,16 +16,24 @@ interface AdminRow {
 export default function AdminUsersPanel() {
   const [admins, setAdmins] = useState<AdminRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [inviting, setInviting] = useState(false);
+  const [resettingId, setResettingId] = useState<string | null>(null);
+  const [removingId, setRemovingId] = useState<string | null>(null);
+  const [pendingRemove, setPendingRemove] = useState<AdminRow | null>(null);
   const [newCredential, setNewCredential] = useState<{ email: string; password: string } | null>(null);
 
   async function loadAdmins() {
     setLoading(true);
     try {
-      const { data, error } = await supabase.rpc("list_admins");
+      const [{ data, error }, { data: userData }] = await Promise.all([
+        supabase.rpc("list_admins"),
+        supabase.auth.getUser(),
+      ]);
       if (error) throw error;
       setAdmins(data ?? []);
+      setCurrentUserId(userData.user?.id ?? null);
     } catch (err: any) {
       toast.error(err.message ?? "שגיאה בטעינת רשימת המנהלים");
     } finally {
@@ -63,6 +72,46 @@ export default function AdminUsersPanel() {
     }
   }
 
+  async function handleResetPassword(admin: AdminRow) {
+    setResettingId(admin.user_id);
+    setNewCredential(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("reset-admin-password", {
+        body: { user_id: admin.user_id },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
+      toast.success("סיסמה חדשה נוצרה בהצלחה");
+      setNewCredential({ email: admin.email, password: data.password });
+    } catch (err: any) {
+      toast.error(err.message ?? "שגיאה באיפוס הסיסמה");
+    } finally {
+      setResettingId(null);
+    }
+  }
+
+  async function handleRemoveConfirmed() {
+    if (!pendingRemove) return;
+    const target = pendingRemove;
+    setPendingRemove(null);
+    setRemovingId(target.user_id);
+    try {
+      const { data, error } = await supabase.functions.invoke("remove-admin", {
+        body: { user_id: target.user_id },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
+      toast.success("המנהל הוסר בהצלחה");
+      loadAdmins();
+    } catch (err: any) {
+      toast.error(err.message ?? "שגיאה בהסרת המנהל");
+    } finally {
+      setRemovingId(null);
+    }
+  }
+
   function copyPassword() {
     if (!newCredential) return;
     navigator.clipboard.writeText(newCredential.password);
@@ -83,17 +132,45 @@ export default function AdminUsersPanel() {
         <p className="text-sm text-muted-foreground">טוען...</p>
       ) : (
         <ul className="flex flex-col gap-2">
-          {admins.map((a) => (
-            <li
-              key={a.user_id}
-              className="flex items-center gap-2 rounded-md border border-border bg-secondary/40 px-3 py-2 text-sm"
-            >
-              <UserRound className="h-4 w-4 shrink-0 text-muted-foreground" />
-              <span className="text-foreground" dir="ltr">
-                {a.email}
-              </span>
-            </li>
-          ))}
+          {admins.map((a) => {
+            const isSelf = a.user_id === currentUserId;
+            return (
+              <li
+                key={a.user_id}
+                className="flex items-center gap-2 rounded-md border border-border bg-secondary/40 px-3 py-2 text-sm"
+              >
+                <UserRound className="h-4 w-4 shrink-0 text-muted-foreground" />
+                <span className="flex-1 text-foreground" dir="ltr">
+                  {a.email}
+                </span>
+                {isSelf && <span className="text-xs text-muted-foreground">(אתה)</span>}
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => handleResetPassword(a)}
+                  disabled={resettingId === a.user_id}
+                  aria-label={`איפוס סיסמה ל${a.email}`}
+                  title="איפוס סיסמה"
+                >
+                  <KeyRound className="h-4 w-4" />
+                </Button>
+                {!isSelf && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setPendingRemove(a)}
+                    disabled={removingId === a.user_id}
+                    aria-label={`הסרת ${a.email}`}
+                    title="הסרת מנהל"
+                  >
+                    <Trash2 className="h-4 w-4 text-destructive" />
+                  </Button>
+                )}
+              </li>
+            );
+          })}
         </ul>
       )}
 
@@ -118,7 +195,7 @@ export default function AdminUsersPanel() {
       {newCredential && (
         <div className="flex flex-col gap-2 rounded-md border border-primary/40 bg-primary/5 p-3 text-sm">
           <p className="font-medium text-foreground">
-            נוצר משתמש עבור <span dir="ltr">{newCredential.email}</span> - שמרו את הסיסמה הזו, היא לא תוצג שוב:
+            סיסמה עבור <span dir="ltr">{newCredential.email}</span> - שמרו אותה, היא לא תוצג שוב:
           </p>
           <div className="flex items-center gap-2">
             <code dir="ltr" className="flex-1 rounded bg-secondary px-2 py-1.5 text-foreground">
@@ -129,10 +206,19 @@ export default function AdminUsersPanel() {
             </Button>
           </div>
           <p className="text-xs text-muted-foreground">
-            מומלץ שהמנהל החדש יחליף אותה לסיסמה משלו מיד אחרי ההתחברות הראשונה, בטאב הזה.
+            מומלץ שהמנהל יחליף אותה לסיסמה משלו מיד אחרי ההתחברות, בטאב הזה.
           </p>
         </div>
       )}
+
+      <ConfirmDialog
+        open={pendingRemove !== null}
+        title="הסרת מנהל"
+        description={pendingRemove ? `להסיר לצמיתות את הגישה של "${pendingRemove.email}"? הפעולה תמחק את המשתמש לחלוטין.` : ""}
+        confirmLabel="הסרה"
+        onConfirm={handleRemoveConfirmed}
+        onCancel={() => setPendingRemove(null)}
+      />
     </section>
   );
 }
